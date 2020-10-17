@@ -1,0 +1,7 @@
+CREATE TABLE USER(
+    --id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id NUMBER(10) PRIMARY KEY,
+    first_name VARCHAR(20),
+    last_name VARCHAR(20),
+    uri VARCHAR(30)
+    );

@@ -1,0 +1,2 @@
+INSERT INTO user (id, first_name, last_name, uri) VALUES
+  (10, 'Aliko', 'Dangote', 'Billionaire Industrialist')

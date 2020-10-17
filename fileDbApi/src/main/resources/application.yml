@@ -1,0 +1,30 @@
+server:
+  port: 8086
+  context-path: /api
+
+spring:
+  main:
+    banner-mode: "off"
+  datasource:
+    url: "jdbc:h2:mem:testdb;INIT=RUNSCRIPT FROM 'src/main/resources/schema_h2.sql'"
+  data:
+    jpa:
+      repostiories:
+        bootstrap-mode: "default"
+  h2:
+    console:
+      enabled: "true"
+
+logging:
+  level:
+    org:
+      springframework: INFO
+    com:
+      shankar:
+        example:
+          fileDbApi: DEBUG
+
+
+management:
+  security:
+    enabled: true
