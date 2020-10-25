@@ -32,7 +32,28 @@ public class FileDbController {
 
     @GetMapping("/test")
     public String test () {
-        return "Hello FileDbResource";
+        User user1 = new User();
+        user1.setId(3);
+        user1.setFirstName("Athi");
+        user1.setLastName("Muthu");
+        user1.setUri("test1");
+        System.out.println(user1);
+
+        User user3 = new User();
+        user3.setId(5);
+        System.out.println(user3);
+
+        ArrayList<User> usersList = new ArrayList<>();
+        usersList.add(user1);
+        usersList.add(user3);
+        System.out.println(usersList);
+
+        Users userList = new Users();
+        userList.setUsers(usersList);
+        System.out.println(userList);
+
+        return userList.toString();
+        //return "Hello FileDbResource";
     }
 
     @GetMapping(value="/users", produces={MediaType.APPLICATION_JSON_VALUE,
