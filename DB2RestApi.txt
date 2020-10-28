@@ -1,0 +1,189 @@
+host : yourhost
+port : 50000
+
+
+GET https://<host>:<port>/services/
+
+
+To discover all services, enter the following URI to start an HTTPS POST request
+
+POST  https://<host>:<port>/services/DB2ServiceDiscoverCopy code
+Specify the following HTTP header fields for the request:
+
+Accept:application/json
+Content-Type:application/json
+
+Db2 returns a response in JSON like the following:
+
+{
+    "DB2Services": [
+        {
+            "serviceName": "DB2ServiceDiscover",
+            "serviceCollectionID": null,
+            "version": null,
+            "isDefaultVersion": true,
+            "serviceStatus": "started",
+            "serviceDescription": "DB2 service to list all available services.",
+            "serviceProvider": "db2service-1.0",
+            "serviceURL": "<host>:<port>/services/DB2ServiceDiscover"
+        },
+        {
+            "serviceName": "DB2ServiceManager",
+            "serviceCollectionID": null,
+            "version": null,
+            "isDefaultVersion": true,
+            "serviceStatus": "started",
+            "serviceDescription": "DB2 service to create, drop, or alter a user defined service.",
+            "serviceProvider": "db2service-1.0",
+            "serviceURL": "<host>:<port>/services/DB2ServiceManager"
+        },
+        {
+            "serviceName": "callSPBigOuts",
+            "serviceCollectionID": "SYSIBMSERVICE",
+            "version": "",
+            "isDefaultVersion": true,
+            "serviceStatus": "started",
+            "serviceDescription": "Call SP SYSADM.BigOuts. Multiple Varchar(32704) OUTPUT PARMS.",
+            "serviceProvider": "db2service-1.0",
+            "serviceURL": "<host>:<port>/services/SYSIBMSERVICE/callSPBigOuts",
+            "alternateServiceURL": "<host>:<port>/services/SYSIBMSERVICE/callSPBigOuts"
+        },
+        {
+            "serviceName": "callSPDeptUpdate",
+            "serviceCollectionID": "SYSIBMSERVICE",
+            "version": "V1",
+            "isDefaultVersion": true,
+            "serviceStatus": "started",
+            "serviceDescription": "Call SP SYSADM.DeptUpdateSP, which takes single input NewLocation parm.",
+            "serviceProvider": "db2service-1.0",
+            "serviceURL": "<host>:<port>/services/SYSIBMSERVICE/callSPDeptUpdate/V1",
+            "alternateServiceURL": "<host>:<port>/services/SYSIBMSERVICE/callSPDeptUpdate"
+        },
+        {
+            "serviceName": "callSPRestT20",
+            "serviceCollectionID": "SYSIBMSERVICE",
+            "version": "",
+            "isDefaultVersion": true,
+            "serviceStatus": "started",
+            "serviceDescription": "Call SP SYSADM.RestT20. Uses LITERALS for the input and vchar, OUT int and vchar.",
+            "serviceProvider": "db2service-1.0",
+            "serviceURL": "<host>:<port>/services/SYSIBMSERVICE/callSPRestT20",
+            "alternateServiceURL": "<host>:<port>/services/SYSIBMSERVICE/callSPRestT20"
+        }
+    ],
+}
+ 
+To create a web service
+=======================
+
+POST https://<host>:<port>/services/DB2ServiceManager
+
+Specify the following HTTP header fields for the request:
+
+Accept:application/json
+Content-Type:application/jsonCopy code
+Specify the following HTTP body for the request:
+
+{
+ "requestType": "createService",
+ "sqlStmt": "SELECT DEPTNAME FROM DSN8B10.DEPT WHERE LOCATION = :LOCATION",
+ "collectionID": "SYSIBMSERVICE",
+ "serviceName": "simpleSelect1",
+ "description": "Select department name based on location.",
+ "owner": "DB2GRP1",
+ "qualifier": "USRT002"
+}
+Copy code
+Db2 returns the following response in JSON:
+
+{
+ "StatusCode":201,
+ "StatusDescription":"DB2 Rest Service simpleSelect1 was created successfully.",
+ "URL": "http://<host>:<port>/services/SYSIBMSERVICE/simpleSelect1/V1"
+ "StatusOptions": {
+  "Applied":[
+    {
+     "ACTION": "ADD"
+   },
+    {
+     "VALIDATE": "RUN"
+   },
+    {
+     "EXPLAIN": "NO"
+   },
+    {
+     "ISOLATION": "CS"
+   },
+    {
+     "RELEASE": "COMMIT"
+   },
+    {
+     "OWNER": "DB2GRP1"
+   },
+    {
+     "QUALIFIER": "USRT002"
+   },
+    {
+     "APREUSE": ""
+   },
+    {
+     "APCOMPARE": ""
+   },
+    {
+     "BUSTIMESENSITIVE": "YES"
+   },
+    {
+     "SYSTIMESENSITIVE": "YES"
+   },
+    {
+     "ARCHIVESENSITIVE": "YES"
+   },
+    {
+     "APPLCOMPAT": "V12R1M500"
+   },
+    {
+     "DESCSTAT": "YES"
+   },
+    {
+     "SQLERROR": "NOPACKAGE"
+   },
+    {
+     "CURRENTDATA": "NO"
+   },
+    {
+     "DEGREE": "1"
+   },
+    {
+     "NODEFER": "PREPARE"
+   },
+    {
+     "REOPT": "NONE"
+   },
+    {
+     "IMMEDWRITE": "NO"
+   },
+    {
+     "DBPROTOCOL": "DRDA"
+   },
+    {
+     "OPTHINT": ""
+   },
+    {
+     "ENCODING": "UNICODE(01208)"
+   },
+    {
+     "CONCURRENTACCESSRESOLUTION": ""
+   },
+    {
+     "PATH": ""
+   },
+    {
+     "QUERYACCELERATION": ""
+   },
+    {
+     "GETACCELARCHIVE": ""
+   },
+    {
+     "ACCELERATOR": ""
+   },
+}

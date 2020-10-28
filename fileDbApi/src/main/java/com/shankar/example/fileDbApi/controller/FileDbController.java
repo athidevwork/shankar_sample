@@ -1,24 +1,21 @@
 package com.shankar.example.fileDbApi.controller;
 
 import com.shankar.example.fileDbApi.data.JdbcRepository;
+import com.shankar.example.fileDbApi.data.ReportsRepository;
+import com.shankar.example.fileDbApi.model.Report;
 import com.shankar.example.fileDbApi.model.User;
 import com.shankar.example.fileDbApi.model.Users;
+import com.shankar.example.fileDbApi.service.ReportService;
 import com.shankar.example.fileDbApi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 @RestController
 public class FileDbController {
@@ -28,7 +25,12 @@ public class FileDbController {
     //@Autowired
     //private UserService userService;
     @Autowired
+    private ReportService reportService;
+    @Autowired
     private JdbcRepository jdbcRepository;
+
+    //@Autowired
+    //private ReportsRepository reportsRepo;
 
     @GetMapping("/test")
     public String test () {
@@ -121,6 +123,25 @@ public class FileDbController {
         users.getUsers().forEach(user -> jdbcRepository.insertUser(user.getId(), user.getFirstName(),
                                                                 user.getLastName(), user.getUri()));
         return users;
+    }
+
+    //@ResponseBody
+    //@PostMapping(value="/reports", produces={MediaType.APPLICATION_JSON_VALUE,
+            //MediaType.APPLICATION_XML_VALUE})
+    @GetMapping(value="/reports")
+    public List<Report> getReports(@RequestParam(name = "cols") String cols) throws IOException {
+        System.out.println("Cols = " + cols);
+
+        List<Report> reports = reportService.getAllUsers();
+        System.out.println("reports = " + reports);
+
+        /*List<Object> reports = reportsRepo.getAllCols();
+        System.out.println("reports = " + reports);
+        reports = reportsRepo.getEvenCols();
+        System.out.println("reports = " + reports);
+        reports = reportsRepo.getCols();
+        System.out.println("reports = " + reports);*/
+        return reports;
     }
 
     /*@GetMapping("/greeting")
